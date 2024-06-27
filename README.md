@@ -136,13 +136,10 @@ Using tools like `mssqlclient` comes with significant security risks. Here are s
 - [Impacket GitHub Repository](https://github.com/fortra/impacket)
 - [SQL Server Documentation](https://docs.microsoft.com/en-us/sql/sql-server/)
 
-## Contributing
 
-We welcome contributions to enhance this guide. Please submit a pull request or open an issue to discuss your ideas.
+## Refrence 
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Offsec 
 ```
 
 You can copy and paste this markdown content directly into your `README.md` file on GitHub.
