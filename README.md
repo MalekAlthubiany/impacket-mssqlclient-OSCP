@@ -135,7 +135,7 @@ Using tools like `mssqlclient` comes with significant security risks. Here are s
 
 - [Impacket GitHub Repository](https://github.com/fortra/impacket)
 - [SQL Server Documentation](https://docs.microsoft.com/en-us/sql/sql-server/)
-
+- [Tips](https://www.mssqltips.com/sqlservertip/1020/enabling-xpcmdshell-in-sql-server/)
 
 ## Refrence 
 
